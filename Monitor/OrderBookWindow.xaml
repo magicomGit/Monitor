@@ -1,0 +1,73 @@
+﻿<Window x:Name="WindOrderBook" x:Class="Monitor.OrderBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvm="clr-namespace:Monitor.Infrastructure.ViewModel"
+        xmlns:converters="clr-namespace:Monitor.Infrastructure.ViewModel.Converters"
+        mc:Ignorable="d"
+        Title="OrderBookWindow" Height="896" Width="200" Loaded="Window_Loaded">
+    <Window.Resources>
+        <mvvm:OrderBookVM x:Key="orderBook_res"/>
+        <converters:OrderBookTypeColor x:Key="orderBookTypeColor_res"/>
+        <converters:Width x:Key="width_res"/>
+        <converters:UpdatedColor x:Key="updatedColor_res"/>
+    </Window.Resources>
+    <Grid>
+       
+        <StackPanel   Orientation="Vertical">
+            <TextBlock x:Name="TbSymbol"></TextBlock>
+            <ItemsControl ItemsSource="{Binding OrderBookAsks}" DataContext="{StaticResource orderBook_res}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate >
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Margin="0,2,0,0"  Height="20"  Orientation="Horizontal"  Background="{Binding Updated, Converter={StaticResource updatedColor_res}}" >
+                                <TextBlock Width="80"  Padding="5,1,5,0"  Text="{Binding Price}" Foreground="Red"/>
+                                <Grid>
+                                    <!--<Rectangle Width="{Binding Quantity, Converter={StaticResource width_res}}" Fill="Aquamarine" HorizontalAlignment="Left"/>-->
+                                    <TextBlock Width="80"  Padding="5,1,5,0"  Text="{Binding Quantity}"/>
+                                </Grid>
+                            </StackPanel>                           
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding OrderBookBids}" DataContext="{StaticResource orderBook_res}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate >
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Margin="0,2,0,0"  Height="20"  Orientation="Horizontal" Background="{Binding Updated, Converter={StaticResource updatedColor_res}}"  >
+                                <TextBlock Width="80"  Padding="5,1,5,0"  Text="{Binding Price}" Foreground="Green"/>
+                                <Grid>
+                                    <!--<Rectangle Width="{Binding Quantity, Converter={StaticResource width_res}}" Fill="Aquamarine" HorizontalAlignment="Left"/>-->
+                                    <TextBlock Width="80"  Padding="5,1,5,0"  Text="{Binding Quantity}"/>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!--<StackPanel Grid.Column="1"  Orientation="Vertical">
+            <ItemsControl ItemsSource="{Binding OrderBook}" DataContext="{StaticResource orderBook_res}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate >
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Margin="0,2,0,0"  Height="20"  Orientation="Horizontal"   >
+                                <TextBlock Width="80"  Padding="5,1,5,0"  Text="{Binding Price}" Foreground="{Binding Type, Converter={StaticResource orderBookTypeColor_res}}"/>
+                                <Grid>
+                                    <Rectangle Width="{Binding Quantity, Converter={StaticResource width_res}}" Fill="Aquamarine" HorizontalAlignment="Left"/>
+                                    <TextBlock Width="80"  Padding="5,1,5,0"  Text="{Binding Quantity}"/>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+        </StackPanel>-->
+
+
+    </Grid>
+</Window>

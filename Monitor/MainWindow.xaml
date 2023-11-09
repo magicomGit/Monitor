@@ -1,0 +1,84 @@
+﻿<Window x:Class="Monitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvm="clr-namespace:Monitor.Infrastructure.ViewModel"
+        xmlns:converters="clr-namespace:Monitor.Infrastructure.ViewModel.Converters"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1124" Loaded="Window_Loaded" Closing="Window_Closing">
+    <Window.Resources>
+        <mvvm:MenuVM x:Key="menu_res"/>
+        <mvvm:MarketMapFilterVM x:Key="marketMap_res"/>
+        <converters:StackPanelColor x:Key="stackPanelColor_res"/>
+        <converters:Visibility x:Key="visibility_res"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <StackPanel x:Name="StackLeft">
+                <ItemsControl ItemsSource="{Binding Menu}" DataContext="{StaticResource menu_res}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate >
+                            <StackPanel Margin="0,2,0,0"  Height="24"  Orientation="Horizontal" Background="{Binding Selected, Converter={StaticResource stackPanelColor_res}}" MouseDown="StackPanel_MouseDown" >
+                                <TextBlock Width="80"  Padding="5,3,5,0"  Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" x:Name="GridBoard" Visibility="Visible">
+            <StackPanel x:Name="StakMap">
+                <TextBlock Height="25" Margin="10,10,10,0" TextWrapping="Wrap" Text="{Binding Message}" FontSize="10"  VerticalAlignment="Top" TextAlignment="Center"/>
+                <TextBlock Height="25" Margin="10,0,10,0" TextWrapping="Wrap" Text="FUTURES" FontSize="16" FontWeight="Bold" VerticalAlignment="Top" TextAlignment="Center"/>
+                <Border BorderBrush="DarkGray" BorderThickness="1" Height="225" Width="892" Background="WhiteSmoke">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel >
+                            <TextBlock Text="NATR" TextAlignment="Center"/>
+                            <ItemsControl ItemsSource="{Binding NATR}" DataContext="{StaticResource marketMap_res}" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate >
+                                        <StackPanel Margin="0,0,40,0"  Height="20"  Orientation="Horizontal"   >
+                                            <TextBlock Width="80"  Padding="5,3,5,0" TextAlignment="Right"  Text="{Binding Value}"/>
+                                            <TextBlock Width="80" Foreground="Green"  Padding="5,3,5,0"  Text="{Binding Symbol}" MouseDown="Symbol_MouseDown" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+
+                            </ItemsControl>
+                        </StackPanel>
+                        <StackPanel >
+                            <TextBlock Text="Volume" TextAlignment="Center"/>
+                            <ItemsControl ItemsSource="{Binding Volume}" DataContext="{StaticResource marketMap_res}" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate >
+                                        <StackPanel Margin="0"  Height="20"  Orientation="Horizontal"   >
+                                            <TextBlock Width="80"  Padding="5,3,5,0" TextAlignment="Right"  Text="{Binding Value}"/>
+                                            <TextBlock Width="80" Foreground="Green"  Padding="5,3,5,0"  Text="{Binding Symbol}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+
+                            </ItemsControl>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Border>
+
+
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Column="1" x:Name="GridFilters" Visibility="Collapsed">
+            <TextBlock>Filters</TextBlock>
+        </Grid>
+
+    </Grid>
+</Window>
